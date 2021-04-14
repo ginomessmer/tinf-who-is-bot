@@ -3,13 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
+using WhoIsBot.Models;
 
 namespace WhoIsBot
 {
     public class WhoIsDbContext : DbContext
     {
-        public DbSet<Profile> Profiles { get; set; }
-
         public DbSet<Teacher> Teachers { get; set; }
 
         /// <inheritdoc />
@@ -26,9 +25,6 @@ namespace WhoIsBot
         /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ProfileInterest>().Property<int>("id");
-            modelBuilder.Entity<ProfileInterest>().HasKey("id");
-            
             modelBuilder.Entity<Teacher>().HasData(GetTeachers());
 
             base.OnModelCreating(modelBuilder);

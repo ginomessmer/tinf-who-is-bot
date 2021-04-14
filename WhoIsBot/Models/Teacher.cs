@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WhoIsBot
+namespace WhoIsBot.Models
 {
     public class Teacher
     {
