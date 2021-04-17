@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  whoisbot:
+    image: ${DOCKER_REGISTRY-}whoisbot
+    build:
+      context: .
+      dockerfile: WhoIsBot/Dockerfile

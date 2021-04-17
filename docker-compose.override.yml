@@ -1,0 +1,19 @@
+version: '3.4'
+services:
+  whoisbot:
+    environment:
+        ConnectionStrings__Redis: redis:6379
+        ConnectionStrings__DefaultDbContext: Host=db;Database=whois;Username=postgres;Password=postgres
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: whois
+    ports:
+    - 5432:5432 
+
+  redis:
+    image: redis

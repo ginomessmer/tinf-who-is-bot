@@ -4,41 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WhoIsBot.Models
 {
-    public class Course
+    public class Teacher : Entity<int>
     {
-        [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
-
-        public string Name { get; set; }
-
-        public ICollection<Teacher> Teachers { get; set; }
-    }
-
-    public class Tag
-    {
-        [Key]
-        public int Id { get; set; }
-
-        public string Key { get; set; }
-    }
-
-    public class TagVote
-    {
-        
-    }
-
-    public class TeacherTag
-    {
-        public Tag Tag { get; set; }
-
-        public ICollection<TagVote> Votes { get; set; }
-    }
-
-    public class Teacher
-    {
-        [Key]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-
         public string Name { get; set; }
 
         public string Location { get; set; }
@@ -52,5 +19,7 @@ namespace WhoIsBot.Models
         public string AvatarUrl { get; set; }
 
         public ICollection<Course> Courses { get; set; } = new List<Course>();
+
+        public List<TeacherTag> Tags { get; set; } = new List<TeacherTag>();
     }
 }

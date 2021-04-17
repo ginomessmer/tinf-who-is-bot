@@ -24,6 +24,7 @@ namespace WhoIsBot
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(x => x.AddUserSecrets<Program>())
                 .ConfigureServices((hostContext, services) =>
                 {
                     // Discord
@@ -44,7 +45,12 @@ namespace WhoIsBot
                         options.Configuration = hostContext.Configuration.GetConnectionString("Redis");
                         options.InstanceName = "WhoIs_";
                     });
-                    services.AddDbContext<WhoIsDbContext>(x => x.UseSqlite("Data source=whois.sqlite"));
+
+                    services.AddDbContext<WhoIsDbContext>(x =>
+                    {
+                        x.EnableSensitiveDataLogging();
+                        x.UseNpgsql(hostContext.Configuration.GetConnectionString("DefaultDbContext"));
+                    });
                 });
 
         private static DiscordSocketClient CreateDiscordSocketClient(HostBuilderContext hostContext)

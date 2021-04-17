@@ -1,16 +1,33 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using ServiceStack.Text;
+using Microsoft.EntityFrameworkCore;
 using WhoIsBot.Models;
 
 namespace WhoIsBot.Commands
 {
+    [Group("tags")]
+    public class TagCommands : ModuleBase<SocketCommandContext>
+    {
+        private readonly WhoIsDbContext _dbContext;
+
+        public TagCommands(WhoIsDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        [Command]
+        public async Task Tags()
+        {
+            var tags = await AsyncEnumerable.ToListAsync(_dbContext.Tags);
+            var list = tags.Select(x => $"`{x.Id}`: {x.Key}");
+            var textList = string.Join('\n', list);
+
+            await ReplyAsync(textList);
+        }
+    }
+
     [RequireContext(ContextType.DM)]
     public class TeacherCommand : ModuleBase<SocketCommandContext>
     {
@@ -24,7 +41,7 @@ namespace WhoIsBot.Commands
         [Command("whois")]
         public async Task WhoIs(string term)
         {
-            var result = await _dbContext.Teachers.FirstOrDefaultAsync(x => x.Name.Contains(term));
+            var result = await AsyncEnumerable.FirstOrDefaultAsync(_dbContext.Teachers, x => x.Name.Contains(term));
             if (result is null)
                 return;
 
@@ -43,6 +60,23 @@ namespace WhoIsBot.Commands
                         .WithIsInline(true)) 
                 .WithFooter($"ID: {result.Id}")
                 .Build());
+        }
+
+        [Command("commend")]
+        public async Task Tag(int teacherId, params int[] tagIds)
+        {
+            var teacher = await _dbContext.Teachers
+                .Include(x => x.Tags)
+                .FirstOrDefaultAsync(x => x.Id == teacherId);
+            
+            if (teacher is null)
+                return;
+
+            var tags = await Task.WhenAll(tagIds.Select(x => _dbContext.Tags.FindAsync(x).AsTask()));
+            var teacherTags = tags.Select(x => new TeacherTag(x, Context.User.Id));
+
+            teacher.Tags.AddRange(teacherTags);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
