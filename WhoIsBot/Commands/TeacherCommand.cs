@@ -1,11 +1,16 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using ServiceStack.Text;
+using WhoIsBot.Models;
 
 namespace WhoIsBot.Commands
 {
-    [Group("dozent")]
     [RequireContext(ContextType.DM)]
     public class TeacherCommand : ModuleBase<SocketCommandContext>
     {
@@ -16,7 +21,7 @@ namespace WhoIsBot.Commands
             _dbContext = dbContext;
         }
 
-        [Command]
+        [Command("whois")]
         public async Task WhoIs(string term)
         {
             var result = await _dbContext.Teachers.FirstOrDefaultAsync(x => x.Name.Contains(term));
@@ -35,7 +40,8 @@ namespace WhoIsBot.Commands
                     new EmbedFieldBuilder()
                         .WithName("Telefon")
                         .WithValue(result.Telephone ?? "")
-                        .WithIsInline(true))               
+                        .WithIsInline(true)) 
+                .WithFooter($"ID: {result.Id}")
                 .Build());
         }
     }

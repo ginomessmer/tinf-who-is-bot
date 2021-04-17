@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using Humanizer;
 using Microsoft.EntityFrameworkCore;
 using WhoIsBot.Models;
 
@@ -10,6 +11,8 @@ namespace WhoIsBot
     public class WhoIsDbContext : DbContext
     {
         public DbSet<Teacher> Teachers { get; set; }
+
+        public DbSet<Course> Courses { get; set; }
 
         /// <inheritdoc />
         protected WhoIsDbContext()
@@ -26,6 +29,10 @@ namespace WhoIsBot
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Teacher>().HasData(GetTeachers());
+
+            modelBuilder.Entity<Teacher>()
+                .HasMany(x => x.Courses)
+                .WithMany(x => x.Teachers);
 
             base.OnModelCreating(modelBuilder);
         }

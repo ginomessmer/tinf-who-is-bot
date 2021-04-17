@@ -38,6 +38,12 @@ namespace WhoIsBot
                     services.AddSingleton<CommandService>();
                     services.AddSingleton<CommandHandler>();
 
+                    // DB
+                    services.AddDistributedRedisCache(options =>
+                    {
+                        options.Configuration = hostContext.Configuration.GetConnectionString("Redis");
+                        options.InstanceName = "WhoIs_";
+                    });
                     services.AddDbContext<WhoIsDbContext>(x => x.UseSqlite("Data source=whois.sqlite"));
                 });
 
