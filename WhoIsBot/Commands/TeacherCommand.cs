@@ -79,5 +79,30 @@ namespace WhoIsBot.Commands
             teacher.Tags.AddRange(teacherTags);
             await _dbContext.SaveChangesAsync();
         }
+
+        [Command("eval")]
+        public async Task Evaluate(int teacherId)
+        {
+            var teacher = await _dbContext.Teachers
+                .Include(x => x.Tags)
+                .ThenInclude(x => x.Tag)
+                .Include(x => x.Tags)
+                .ThenInclude(x => x.Votes)
+                .FirstOrDefaultAsync(x => x.Id == teacherId);
+
+            foreach (var teacherTag in teacher.Tags)
+            {
+                var message = await ReplyAsync($"{teacherTag.Tag.Key}?");
+                await message.AddReactionsAsync(new []
+                {
+                    new Emoji("✅"),
+                    new Emoji("❌")
+                });
+
+                teacherTag.Votes.Add(new TeacherTagVote(Context.User.Id));
+            }
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

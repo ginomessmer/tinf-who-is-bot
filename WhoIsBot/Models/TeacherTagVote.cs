@@ -7,11 +7,16 @@ namespace WhoIsBot.Models
     {
         public TeacherTag TeacherTag { get; set; }
 
+        [Required]
         public ulong VoterId { get; set; }
 
-        public TeacherTagVote(ulong voterId)
+        [Range(-1, 1)]
+        public int Score { get; set; }
+
+        public TeacherTagVote(ulong voterId, int score = 0)
         {
             VoterId = voterId;
+            Score = score;
         }
     }
 }
