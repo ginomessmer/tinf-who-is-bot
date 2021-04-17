@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using WhoIsBot.Commands;
+using WhoIsBot.Database;
 
 namespace WhoIsBot
 {

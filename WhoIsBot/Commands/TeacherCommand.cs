@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Microsoft.EntityFrameworkCore;
+using WhoIsBot.Database;
 using WhoIsBot.Models;
 
 namespace WhoIsBot.Commands

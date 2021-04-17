@@ -1,8 +1,7 @@
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WhoIsBot.Models;
 
-namespace WhoIsBot
+namespace WhoIsBot.Database
 {
     public class WhoIsDbContext : DbContext
     {

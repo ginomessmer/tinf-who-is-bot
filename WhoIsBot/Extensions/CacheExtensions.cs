@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
-namespace WhoIsBot
+namespace WhoIsBot.Extensions
 {
     public static class CacheExtensions
     {
