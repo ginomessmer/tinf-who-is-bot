@@ -8,6 +8,7 @@ using Azure.AI.TextAnalytics;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
@@ -52,6 +53,9 @@ namespace WhoIsBot
                         x.EnableSensitiveDataLogging();
                         x.UseNpgsql(hostContext.Configuration.GetConnectionString("DefaultDbContext"));
                     });
+
+                    // Misc
+                    services.AddMediatR(typeof(Program));
                 });
 
         private static DiscordSocketClient CreateDiscordSocketClient(HostBuilderContext hostContext)

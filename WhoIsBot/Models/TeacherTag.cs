@@ -9,7 +9,7 @@ namespace WhoIsBot.Models
 
         public Teacher Teacher { get; set; }
 
-        public ICollection<TeacherTagVote> Votes { get; set; }
+        public ICollection<TeacherTagVote> Votes { get; set; } = new List<TeacherTagVote>();
 
         public ulong CreatedBy { get; set; }
 
@@ -17,11 +17,6 @@ namespace WhoIsBot.Models
         {
             Tag = tag;
             CreatedBy = userId;
-
-            Votes = new List<TeacherTagVote>
-            {
-                new(userId)
-            };
         }
 
         public TeacherTag()

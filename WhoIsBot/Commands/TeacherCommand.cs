@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -73,7 +74,12 @@ namespace WhoIsBot.Commands
             if (teacher is null)
                 return;
 
-            var tags = await Task.WhenAll(tagIds.Select(x => _dbContext.Tags.FindAsync(x).AsTask()));
+            var tags = new List<Tag>();
+            foreach (var tagId in tagIds)
+            {
+                tags.Add(await _dbContext.Tags.FindAsync(tagId));
+            }
+            
             var teacherTags = tags.Select(x => new TeacherTag(x, Context.User.Id));
 
             teacher.Tags.AddRange(teacherTags);
@@ -95,11 +101,14 @@ namespace WhoIsBot.Commands
                 var message = await ReplyAsync($"{teacherTag.Tag.Key}?");
                 await message.AddReactionsAsync(new []
                 {
-                    new Emoji("✅"),
-                    new Emoji("❌")
+                    new Emoji("⬆"),
+                    new Emoji("⬇")
                 });
 
-                teacherTag.Votes.Add(new TeacherTagVote(Context.User.Id));
+                teacherTag.Votes.Add(new TeacherTagVote(Context.User.Id)
+                {
+                    MessageId = message.Id
+                });
             }
 
             await _dbContext.SaveChangesAsync();
