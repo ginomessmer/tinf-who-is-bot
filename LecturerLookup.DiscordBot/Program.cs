@@ -8,12 +8,12 @@ using Azure.AI.TextAnalytics;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using LecturerLookup.Core.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using WhoIsBot.Commands;
-using WhoIsBot.Database;
 
 namespace WhoIsBot
 {
@@ -32,9 +32,6 @@ namespace WhoIsBot
                     // Discord
                     services.AddSingleton<DiscordSocketClient>(sp => CreateDiscordSocketClient(hostContext));
                     services.AddSingleton<IDiscordClient, DiscordSocketClient>(sp => sp.GetRequiredService<DiscordSocketClient>());
-
-                    services.AddSingleton(new TextAnalyticsClient(new Uri("https://tinf-network-whois.cognitiveservices.azure.com/"),
-                        new AzureKeyCredential("e1d412123ade4305991f0d5a16d71c30")));
 
                     services.AddHostedService<Worker>();
                     services.AddSingleton<CommandServiceConfig>();

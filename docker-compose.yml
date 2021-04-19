@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  whoisbot:
-    image: ${DOCKER_REGISTRY-}whoisbot
+  bot:
+    image: ${DOCKER_REGISTRY-}ll-discord-bot
     build:
       context: .
-      dockerfile: WhoIsBot/Dockerfile
+      dockerfile: LecturerLookup.DiscordBot/Dockerfile

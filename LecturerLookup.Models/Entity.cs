@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WhoIsBot.Models
+namespace LecturerLookup.Models
 {
     public abstract class Entity<T>
     {

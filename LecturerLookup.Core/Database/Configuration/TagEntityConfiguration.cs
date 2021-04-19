@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using LecturerLookup.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WhoIsBot.Models;
 
-namespace WhoIsBot.Database.Configuration
+namespace LecturerLookup.Core.Database.Configuration
 {
     public class TagEntityConfiguration : IEntityTypeConfiguration<Tag>
     {

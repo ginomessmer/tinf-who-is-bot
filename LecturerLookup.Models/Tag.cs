@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace WhoIsBot.Models
+namespace LecturerLookup.Models
 {
     public class Tag : Entity<int>
     {

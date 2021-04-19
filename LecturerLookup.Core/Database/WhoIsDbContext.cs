@@ -1,7 +1,7 @@
+using LecturerLookup.Models;
 using Microsoft.EntityFrameworkCore;
-using WhoIsBot.Models;
 
-namespace WhoIsBot.Database
+namespace LecturerLookup.Core.Database
 {
     public class WhoIsDbContext : DbContext
     {

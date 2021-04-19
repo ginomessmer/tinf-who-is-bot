@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using HtmlAgilityPack;
-using Humanizer;
+using LecturerLookup.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WhoIsBot.Models;
 
-namespace WhoIsBot.Database.Configuration
+namespace LecturerLookup.Core.Database.Configuration
 {
     public class TeacherEntityConfiguration : IEntityTypeConfiguration<Teacher>
     {
@@ -19,7 +18,7 @@ namespace WhoIsBot.Database.Configuration
 
         }
 
-        private IEnumerable<Teacher> Seed()
+        private static IEnumerable<Teacher> Seed()
         {
             var web = new HtmlWeb();
             var doc = web.Load("https://www.karlsruhe.dhbw.de/dhbw-karlsruhe/ansprechpersonen/alle.html");

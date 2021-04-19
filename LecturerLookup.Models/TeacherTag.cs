@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace WhoIsBot.Models
+namespace LecturerLookup.Models
 {
     public class TeacherTag : Entity<Guid>
     {

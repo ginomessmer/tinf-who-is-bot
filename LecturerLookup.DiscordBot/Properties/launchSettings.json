@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "WhoIsBot": {
+    "LecturerLookup.DiscordBot": {
       "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"

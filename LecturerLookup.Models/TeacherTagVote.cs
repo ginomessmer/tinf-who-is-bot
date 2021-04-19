@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WhoIsBot.Models
+namespace LecturerLookup.Models
 {
     public class TeacherTagVote : Entity<Guid>
     {

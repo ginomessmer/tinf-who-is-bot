@@ -1,6 +1,6 @@
 version: '3.4'
 services:
-  whoisbot:
+  bot:
     environment:
         ConnectionStrings__Redis: redis:6379
         ConnectionStrings__DefaultDbContext: Host=db;Database=whois;Username=postgres;Password=postgres
