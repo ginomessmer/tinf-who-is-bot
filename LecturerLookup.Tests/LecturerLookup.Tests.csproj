@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LecturerLookup.Core\LecturerLookup.Core.csproj" />
+    <ProjectReference Include="..\LecturerLookup.Models\LecturerLookup.Models.csproj" />
+  </ItemGroup>
+
 </Project>
