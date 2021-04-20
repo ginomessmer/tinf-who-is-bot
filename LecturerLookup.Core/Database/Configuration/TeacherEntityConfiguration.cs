@@ -16,6 +16,10 @@ namespace LecturerLookup.Core.Database.Configuration
             builder.HasMany(x => x.Courses)
                 .WithMany(x => x.Teachers);
 
+            builder.OwnsMany(x => x.Ratings, navigationBuilder =>
+            {
+                navigationBuilder.WithOwner();
+            });
         }
 
         private static IEnumerable<Teacher> Seed()

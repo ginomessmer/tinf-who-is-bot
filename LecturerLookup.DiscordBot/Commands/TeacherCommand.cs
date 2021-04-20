@@ -55,5 +55,34 @@ namespace LecturerLookup.DiscordBot.Commands
                 .WithFooter($"#{result.Id}")
                 .Build());
         }
+
+        [Command("rate")]
+        public async Task Rate(int id)
+        {
+            var teacher = await _dbContext.Teachers
+                .Include(x => x.Ratings)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            teacher.Ratings.Add(new TeacherRate
+            {
+                VotedBy = Context.User.Id
+            });
+
+            var message = await ReplyAsync(embed: new EmbedBuilder()
+                .WithTitle($"{teacher.Name} bewerten")
+                .WithDescription("TODO Beschreibung")
+                .Build());
+
+            await message.AddReactionsAsync(new IEmote[]
+            {
+                new Emoji(Emojis.ExplodingHead),
+                new Emoji(Emojis.StarStruck),
+                new Emoji(Emojis.ThumbsUp),
+                new Emoji(Emojis.PersonShrugging),
+                new Emoji(Emojis.ThumbsDown),
+                new Emoji(Emojis.TiredFace),
+                new Emoji(Emojis.Angry),
+            });
+        }
     }
 }
