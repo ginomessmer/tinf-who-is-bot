@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LecturerLookup.DiscordBot.Properties;
 
 namespace LecturerLookup.DiscordBot.Commands
 {
@@ -23,17 +24,34 @@ namespace LecturerLookup.DiscordBot.Commands
         [Command("whois")]
         public async Task WhoIs(string term)
         {
-            var result = await EntityFrameworkQueryableExtensions.FirstOrDefaultAsync(
-                _dbContext.Teachers, x => x.Name.Contains(term));
+            var result = await _dbContext.Teachers
+                .Include(x => x.Courses)
+                .Include(x => x.Tags)
+                .ThenInclude(x => x.Tag)
+                .FirstOrDefaultAsync(x => x.Name.Contains(term));
 
             if (result is null)
                 return;
+
+            // Courses
+            var courses = result.Courses;
+            var coursesValue = courses.Any() ? string.Join(", ", courses.Select(x => x.Name)) : "-";
+
+            // Tags
+            var tags = result.DetermineTopTags();
+            var tagsValue = tags.Any() ? string.Join(", ", tags.Select(x => x.Tag.Key)) : "-";
 
             await ReplyAsync(embed: new EmbedBuilder()
                 .WithTitle(result.Name)
                 .WithThumbnailUrl(result.AvatarUrl)
                 .WithDescription(result.Office)
                 .WithFields(
+                    new EmbedFieldBuilder()
+                        .WithName("Vorlesungen")
+                        .WithValue(coursesValue),
+                    new EmbedFieldBuilder()
+                        .WithName("Attribute")
+                        .WithValue(tagsValue),
                     new EmbedFieldBuilder()
                         .WithName("Email")
                         .WithValue(result.Email)
@@ -42,7 +60,7 @@ namespace LecturerLookup.DiscordBot.Commands
                         .WithName("Telefon")
                         .WithValue(result.Telephone ?? "")
                         .WithIsInline(true)) 
-                .WithFooter($"ID: {result.Id}")
+                .WithFooter($"#{result.Id}")
                 .Build());
         }
 
@@ -56,6 +74,7 @@ namespace LecturerLookup.DiscordBot.Commands
             if (teacher is null)
                 return;
 
+            // Post tags
             var tags = new List<Tag>();
             foreach (var tagId in tagIds)
             {
@@ -77,6 +96,13 @@ namespace LecturerLookup.DiscordBot.Commands
                 .Include(x => x.Tags)
                 .ThenInclude(x => x.Votes)
                 .FirstOrDefaultAsync(x => x.Id == teacherId);
+
+
+            // Post instructions
+            await ReplyAsync("", embed: new EmbedBuilder()
+                .WithTitle(Resources.CommendTitle)
+                .WithDescription(Resources.CommendInstructions)
+                .Build());
 
             foreach (var teacherTag in teacher.Tags)
             {

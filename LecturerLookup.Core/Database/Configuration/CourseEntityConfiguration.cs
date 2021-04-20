@@ -16,6 +16,7 @@ namespace LecturerLookup.Core.Database.Configuration
         {
             new("analysis", "Mathematik - Analysis"),
             new("algebra", "Mathematik - Lineare Algebra"),
+            new("numerik", "Mathematik - Numerik"),
             new("statistik", "Mathematik - Statistik"),
 
             new("ic", "Intercultural Communication"),
