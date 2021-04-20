@@ -13,6 +13,8 @@ namespace LecturerLookup.Models
 
         public ulong CreatedBy { get; set; }
 
+        public TeacherTagEvaluation Evaluation { get; set; } = new();
+
         public TeacherTag(Tag tag, ulong userId)
         {
             Tag = tag;

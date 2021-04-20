@@ -13,6 +13,11 @@ namespace LecturerLookup.Core.Database.Configuration
 
             builder.HasOne(x => x.Teacher)
                 .WithMany(x => x.Tags);
+
+            builder.OwnsOne(x => x.Evaluation, navigationBuilder =>
+            {
+                navigationBuilder.WithOwner();
+            });
         }
     }
 }

@@ -31,6 +31,7 @@ namespace LecturerLookup.DiscordBot
                     services.AddSingleton<IDiscordClient, DiscordSocketClient>(sp => sp.GetRequiredService<DiscordSocketClient>());
 
                     services.AddHostedService<Worker>();
+                    services.AddHostedService<CalculateScoreWorker>();
                     services.AddSingleton<CommandServiceConfig>();
                     services.AddSingleton<CommandService>();
                     services.AddSingleton<CommandHandler>();
