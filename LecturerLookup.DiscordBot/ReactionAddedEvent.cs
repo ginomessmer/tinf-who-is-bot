@@ -1,7 +1,7 @@
 using Discord;
 using MediatR;
 
-namespace WhoIsBot
+namespace LecturerLookup.DiscordBot
 {
     public record ReactionAddedEvent : INotification
     {

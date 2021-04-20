@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
 using LecturerLookup.Core.Database;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace WhoIsBot.Commands
+namespace LecturerLookup.DiscordBot.Commands
 {
     [Group("tags")]
     public class TagCommands : ModuleBase<SocketCommandContext>

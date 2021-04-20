@@ -1,16 +1,13 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using LecturerLookup.DiscordBot.Commands;
 using MediatR;
-using Microsoft.Extensions.Caching.Distributed;
-using WhoIsBot.Commands;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-namespace WhoIsBot
+namespace LecturerLookup.DiscordBot
 {
     public class Worker : BackgroundService
     {

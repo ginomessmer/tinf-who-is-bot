@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
-namespace WhoIsBot.Commands
+namespace LecturerLookup.DiscordBot.Commands
 {
     public class CommandHandler
     {

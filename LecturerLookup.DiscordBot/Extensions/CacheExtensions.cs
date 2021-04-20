@@ -1,10 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
-namespace WhoIsBot.Extensions
+namespace LecturerLookup.DiscordBot.Extensions
 {
     public static class CacheExtensions
     {

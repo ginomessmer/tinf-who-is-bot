@@ -1,21 +1,18 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure;
-using Azure.AI.TextAnalytics;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using LecturerLookup.Core.Database;
+using LecturerLookup.DiscordBot.Commands;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
-using WhoIsBot.Commands;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace WhoIsBot
+namespace LecturerLookup.DiscordBot
 {
     public class Program
     {

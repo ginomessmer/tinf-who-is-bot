@@ -1,6 +1,6 @@
+using LecturerLookup.Models;
 using System.Collections.Generic;
 using System.Linq;
-using LecturerLookup.Models;
 
 namespace LecturerLookup.Core.Extensions
 {

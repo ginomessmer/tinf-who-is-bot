@@ -1,10 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using LecturerLookup.Core.Database;
+﻿using LecturerLookup.Core.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace WhoIsBot
+namespace LecturerLookup.DiscordBot
 {
     public class CommendEventHandler : INotificationHandler<ReactionAddedEvent>
     {

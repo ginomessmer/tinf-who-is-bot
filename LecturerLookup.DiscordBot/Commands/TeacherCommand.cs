@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using LecturerLookup.Core.Database;
 using LecturerLookup.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace WhoIsBot.Commands
+namespace LecturerLookup.DiscordBot.Commands
 {
 
     [RequireContext(ContextType.DM)]
