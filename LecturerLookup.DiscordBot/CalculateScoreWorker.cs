@@ -27,7 +27,7 @@ namespace LecturerLookup.DiscordBot
             {
                 using var scope = _serviceProvider.CreateScope();
                 await using var dbContext = scope.ServiceProvider.GetRequiredService<WhoIsDbContext>();
-
+                
                 var allTeachers = await dbContext.Teachers
                     .Include(x => x.Tags)
                     .ThenInclude(x => x.Votes)
@@ -40,7 +40,6 @@ namespace LecturerLookup.DiscordBot
                 }
 
                 await dbContext.SaveChangesAsync(stoppingToken);
-
                 _logger.LogInformation("Updated all scores");
 
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
