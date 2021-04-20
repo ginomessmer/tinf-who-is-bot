@@ -9,10 +9,6 @@ namespace LecturerLookup.Core.Database
 
         public DbSet<Course> Courses { get; set; }
 
-        public DbSet<Tag> Tags { get; set; }
-
-        public DbSet<TeacherTagVote> TeacherTagVotes { get; set; }
-
         /// <inheritdoc />
         protected WhoIsDbContext()
         {

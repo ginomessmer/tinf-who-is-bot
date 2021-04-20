@@ -18,13 +18,5 @@ namespace LecturerLookup.Models
         public string AvatarUrl { get; set; }
 
         public ICollection<Course> Courses { get; set; } = new List<Course>();
-
-        public List<TeacherTag> Tags { get; set; } = new List<TeacherTag>();
-
-
-        public IReadOnlyCollection<TeacherTag> DetermineTopTags(int top = 3) =>
-            Tags?.OrderByDescending(x => x.Evaluation.CalculatedScore)
-                .Take(top)
-                .ToList();
     }
 }
