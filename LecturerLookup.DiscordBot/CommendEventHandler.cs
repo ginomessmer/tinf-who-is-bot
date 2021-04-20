@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using LecturerLookup.Core.Database;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace WhoIsBot
 {

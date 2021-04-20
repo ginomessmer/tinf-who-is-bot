@@ -9,26 +9,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WhoIsBot.Commands
 {
-    [Group("tags")]
-    public class TagCommands : ModuleBase<SocketCommandContext>
-    {
-        private readonly WhoIsDbContext _dbContext;
-
-        public TagCommands(WhoIsDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        [Command]
-        public async Task Tags()
-        {
-            var tags = await AsyncEnumerable.ToListAsync(_dbContext.Tags);
-            var list = tags.Select(x => $"`{x.Id}`: {x.Key}");
-            var textList = string.Join('\n', list);
-
-            await ReplyAsync(textList);
-        }
-    }
 
     [RequireContext(ContextType.DM)]
     public class TeacherCommand : ModuleBase<SocketCommandContext>
@@ -43,7 +23,9 @@ namespace WhoIsBot.Commands
         [Command("whois")]
         public async Task WhoIs(string term)
         {
-            var result = await AsyncEnumerable.FirstOrDefaultAsync(_dbContext.Teachers, x => x.Name.Contains(term));
+            var result = await EntityFrameworkQueryableExtensions.FirstOrDefaultAsync(
+                _dbContext.Teachers, x => x.Name.Contains(term));
+
             if (result is null)
                 return;
 
@@ -105,10 +87,19 @@ namespace WhoIsBot.Commands
                     new Emoji("⬇")
                 });
 
-                teacherTag.Votes.Add(new TeacherTagVote(Context.User.Id)
+                if (await EntityFrameworkQueryableExtensions.SingleOrDefaultAsync(_dbContext.TeacherTagVotes, x =>
+                    x.TeacherTagId == teacherTag.Id && x.VoterId == Context.User.Id) is TeacherTagVote vote)
                 {
-                    MessageId = message.Id
-                });
+                    // Update
+                    vote.MessageId = message.Id;
+                }
+                else
+                {
+                    teacherTag.Votes.Add(new TeacherTagVote(Context.User.Id)
+                    {
+                        MessageId = message.Id
+                    });
+                }
             }
 
             await _dbContext.SaveChangesAsync();

@@ -26,6 +26,7 @@ namespace LecturerLookup.Core.Database.Configuration
             yield return new Tag(i++, "Offen für Feedback");
             yield return new Tag(i++, "Gruppenarbeiten");
             yield return new Tag(i++, "Wiederholt Inhalte");
+            yield return new Tag(i++, "Schnelle Klausurkorrektur");
         }
     }
 }
