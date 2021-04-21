@@ -10,7 +10,6 @@ using LecturerLookup.DiscordBot.Properties;
 
 namespace LecturerLookup.DiscordBot.Commands
 {
-
     [RequireContext(ContextType.DM)]
     public class TeacherCommand : ModuleBase<SocketCommandContext>
     {
@@ -38,28 +37,29 @@ namespace LecturerLookup.DiscordBot.Commands
             var coursesValue = courses.Any() ? string.Join(", ", courses.Select(x => x.Name)) : "-";
 
             // Tags
-            var tags = result.DetermineTopTags();
-            var tagsValue = tags.Any() ? string.Join(", ", tags.Select(x => x.Tag.Key)) : "-";
+            var tags = result.Tags;
+
+            var evaluationService = new ScoreEvaluationService();
+
+            var tagFields = tags.Select(x => new EmbedFieldBuilder()
+                .WithName(x.Tag.Key)
+                .WithValue(evaluationService.GetLabel(x.Evaluation.CalculatedScore))
+                .WithIsInline(false));
+
+            var fields = new List<EmbedFieldBuilder>();
+            fields.Add(new EmbedFieldBuilder()
+                    .WithName("Vorlesungen")
+                    .WithValue(coursesValue));
+            fields.AddRange(tagFields);
+            fields.Add(new EmbedFieldBuilder()
+                    .WithName("Kontakt")
+                    .WithValue(result.FormatContactDetails()));
 
             await ReplyAsync(embed: new EmbedBuilder()
                 .WithTitle(result.Name)
                 .WithThumbnailUrl(result.AvatarUrl)
                 .WithDescription(result.Office)
-                .WithFields(
-                    new EmbedFieldBuilder()
-                        .WithName("Vorlesungen")
-                        .WithValue(coursesValue),
-                    new EmbedFieldBuilder()
-                        .WithName("Attribute")
-                        .WithValue(tagsValue),
-                    new EmbedFieldBuilder()
-                        .WithName("Email")
-                        .WithValue(result.Email)
-                        .WithIsInline(true),
-                    new EmbedFieldBuilder()
-                        .WithName("Telefon")
-                        .WithValue(result.Telephone ?? "")
-                        .WithIsInline(true)) 
+                .WithFields(fields) 
                 .WithFooter($"#{result.Id}")
                 .Build());
         }

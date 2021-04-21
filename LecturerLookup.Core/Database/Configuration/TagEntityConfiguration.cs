@@ -19,8 +19,7 @@ namespace LecturerLookup.Core.Database.Configuration
         {
             var i = 1;
 
-            yield return new Tag(i++, "Struktur", "Wie ist die Struktur der Vorlesung?");
-            yield return new Tag(i++, "Organisation", "Wie ist die Organisation der Materialien?");
+            yield return new Tag(i++, "Qualität", "Wie ist die Organisation der Materialien und die Struktur der Vorlesung?");
             yield return new Tag(i++, "Tempo", "Wie ist das Tempo der Vorlesung?");
             yield return new Tag(i++, "Übungsaufgaben", "Werden gute Übungsaufgaben bereitgestellt?");
             yield return new Tag(i++, "Wiederholungen", "Finden ausreichende Wiederholungen des Inhalts statt?");

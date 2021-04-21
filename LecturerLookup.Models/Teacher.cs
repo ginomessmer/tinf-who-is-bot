@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace LecturerLookup.Models
 {
@@ -26,5 +27,10 @@ namespace LecturerLookup.Models
             Tags?.OrderByDescending(x => x.Evaluation.CalculatedScore)
                 .Take(top)
                 .ToList();
+
+        public string FormatContactDetails() => new StringBuilder()
+            .AppendLine(Email)
+            .AppendLine(Telephone)
+            .ToString();
     }
 }

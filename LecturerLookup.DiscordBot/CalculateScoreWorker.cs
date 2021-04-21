@@ -35,8 +35,10 @@ namespace LecturerLookup.DiscordBot
 
                 foreach (var tag in allTeachers.SelectMany(teacher => teacher.Tags))
                 {
-                    tag.Evaluation.CalculatedScore = tag.Votes.Sum(x => x.Score);
-                    tag.Evaluation.TotalVotes = tag.Votes.Count;
+                    tag.Evaluation.TotalUpVotes = tag.Votes.Count(x => x.Score > 0);
+                    tag.Evaluation.TotalDownVotes = tag.Votes.Count(x => x.Score < 0);
+                    tag.Evaluation.TotalVotes = tag.Evaluation.TotalUpVotes + tag.Evaluation.TotalDownVotes;
+                    tag.Evaluation.CalculatedScore = tag.Evaluation.TotalUpVotes / tag.Evaluation.TotalVotes;
                 }
 
                 await dbContext.SaveChangesAsync(stoppingToken);
