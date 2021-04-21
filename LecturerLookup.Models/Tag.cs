@@ -6,6 +6,8 @@ namespace LecturerLookup.Models
     {
         public string Key { get; set; }
 
+        public string Description { get; set; }
+
         public ICollection<TeacherTag> TeacherTags { get; set; }
 
         public Tag(string key)
@@ -13,10 +15,11 @@ namespace LecturerLookup.Models
             Key = key;
         }
 
-        public Tag(int id, string key)
+        public Tag(int id, string key, string description)
         {
             Id = id;
             Key = key;
+            Description = description;
         }
     }
 }

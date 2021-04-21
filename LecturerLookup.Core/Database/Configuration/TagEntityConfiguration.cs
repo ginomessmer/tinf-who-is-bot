@@ -19,14 +19,17 @@ namespace LecturerLookup.Core.Database.Configuration
         {
             var i = 1;
 
-            yield return new Tag(i++, "Reagiert schnell auf Emails");
-            yield return new Tag(i++, "Gut strukturiert");
-            yield return new Tag(i++, "Stellt Altklausuren bereit");
-            yield return new Tag(i++, "Fleiß");
-            yield return new Tag(i++, "Offen für Feedback");
-            yield return new Tag(i++, "Gruppenarbeiten");
-            yield return new Tag(i++, "Wiederholt Inhalte");
-            yield return new Tag(i++, "Schnelle Klausurkorrektur");
+            yield return new Tag(i++, "Struktur", "Wie ist die Struktur der Vorlesung?");
+            yield return new Tag(i++, "Organisation", "Wie ist die Organisation der Materialien?");
+            yield return new Tag(i++, "Tempo", "Wie ist das Tempo der Vorlesung?");
+            yield return new Tag(i++, "Übungsaufgaben", "Werden gute Übungsaufgaben bereitgestellt?");
+            yield return new Tag(i++, "Wiederholungen", "Finden ausreichende Wiederholungen des Inhalts statt?");
+            yield return new Tag(i++, "Engagiert", "Wirkt die Person an andere Projekte oder sonstige Aktivitäten mit?");
+            yield return new Tag(i++, "Offenheit", "Ist die Person offen für Feedback und Vorschläge? Werden Studenten aktiv miteinbezogen?");
+            yield return new Tag(i++, "Zuverlässlichkeit bei Emails", "Darunter zählen bspw. die Reaktionszeit, die Qualität der Antwort, etc.");
+            yield return new Tag(i++, "Altklausuren", "Sind Altklausuren vorhanden, die entweder von der Person oder durch ältere Jahrgänge bereitgestellt wurden?");
+            yield return new Tag(i++, "Klausuren", "Ist das Niveau der Klausuren angemessen?");
+            yield return new Tag(i++, "Klausurkorrektur", "Wie schnell werden Klausuren korrigiert?");
         }
     }
 }

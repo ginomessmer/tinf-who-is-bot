@@ -15,10 +15,9 @@ namespace LecturerLookup.Models
 
         public TeacherTagEvaluation Evaluation { get; set; } = new();
 
-        public TeacherTag(Tag tag, ulong userId)
+        public TeacherTag(Tag tag)
         {
             Tag = tag;
-            CreatedBy = userId;
         }
 
         public TeacherTag()

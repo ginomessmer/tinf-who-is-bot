@@ -4,8 +4,8 @@ using LecturerLookup.Core.Database;
 using LecturerLookup.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using System.Linq;
 using LecturerLookup.DiscordBot.Properties;
 
 namespace LecturerLookup.DiscordBot.Commands
@@ -64,31 +64,8 @@ namespace LecturerLookup.DiscordBot.Commands
                 .Build());
         }
 
-        [Command("commend")]
-        public async Task Tag(int teacherId, params int[] tagIds)
-        {
-            var teacher = await _dbContext.Teachers
-                .Include(x => x.Tags)
-                .FirstOrDefaultAsync(x => x.Id == teacherId);
-            
-            if (teacher is null)
-                return;
-
-            // Post tags
-            var tags = new List<Tag>();
-            foreach (var tagId in tagIds)
-            {
-                tags.Add(await _dbContext.Tags.FindAsync(tagId));
-            }
-            
-            var teacherTags = tags.Select(x => new TeacherTag(x, Context.User.Id));
-
-            teacher.Tags.AddRange(teacherTags);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        [Command("eval")]
-        public async Task Evaluate(int teacherId)
+        [Command("rate")]
+        public async Task Rate(int teacherId)
         {
             var teacher = await _dbContext.Teachers
                 .Include(x => x.Tags)
@@ -97,16 +74,26 @@ namespace LecturerLookup.DiscordBot.Commands
                 .ThenInclude(x => x.Votes)
                 .FirstOrDefaultAsync(x => x.Id == teacherId);
 
+            // Append tags
+            var tags = _dbContext.Tags.ToList();
+            var missingTags = tags.Except(teacher.Tags.Select(x => x.Tag));
+
+            teacher.Tags.AddRange(missingTags.Select(x => new TeacherTag(x)));
 
             // Post instructions
-            await ReplyAsync("", embed: new EmbedBuilder()
+            await ReplyAsync(embed: new EmbedBuilder()
                 .WithTitle(Resources.CommendTitle)
                 .WithDescription(Resources.CommendInstructions)
+                .WithColor(Color.LightOrange)
                 .Build());
 
             foreach (var teacherTag in teacher.Tags)
             {
-                var message = await ReplyAsync($"{teacherTag.Tag.Key}?");
+                var message = await ReplyAsync(embed: new EmbedBuilder()
+                    .WithTitle(teacherTag.Tag.Key)
+                    .WithDescription(teacherTag.Tag.Description)
+                    .Build());
+
                 await message.AddReactionsAsync(new []
                 {
                     new Emoji("⬆"),
