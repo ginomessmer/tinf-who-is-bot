@@ -52,6 +52,7 @@ namespace LecturerLookup.DiscordBot
 
                     // Misc
                     services.AddMediatR(typeof(Program));
+                    services.AddApplicationInsightsTelemetryWorkerService();
                 });
 
         private static DiscordSocketClient CreateDiscordSocketClient(HostBuilderContext hostContext)

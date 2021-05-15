@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -13,14 +16,19 @@ namespace LecturerLookup.DiscordBot.Commands
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
         private readonly IServiceProvider _serviceProvider;
+        private readonly TelemetryClient _telemetryClient;
         private readonly ILogger<CommandHandler> _logger;
 
         // Retrieve client and CommandService instance via ctor
-        public CommandHandler(DiscordSocketClient client, CommandService commands, IServiceProvider serviceProvider,
+        public CommandHandler(DiscordSocketClient client,
+            CommandService commands,
+            IServiceProvider serviceProvider,
+            TelemetryClient telemetryClient,
             ILogger<CommandHandler> logger)
         {
             _commands = commands;
             _serviceProvider = serviceProvider;
+            _telemetryClient = telemetryClient;
             _logger = logger;
             _client = client;
         }
