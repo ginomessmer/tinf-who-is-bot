@@ -6,6 +6,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using LecturerLookup.Core.Database;
 using LecturerLookup.DiscordBot.Commands;
+using LecturerLookup.DiscordBot.Workers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

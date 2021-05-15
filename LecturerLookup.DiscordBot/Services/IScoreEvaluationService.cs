@@ -1,4 +1,4 @@
-﻿namespace LecturerLookup.DiscordBot.Commands
+﻿namespace LecturerLookup.DiscordBot.Services
 {
     public interface IScoreEvaluationService
     {

@@ -3,11 +3,12 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using LecturerLookup.DiscordBot.Commands;
+using LecturerLookup.DiscordBot.Events;
 using MediatR;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace LecturerLookup.DiscordBot
+namespace LecturerLookup.DiscordBot.Workers
 {
     public class Worker : BackgroundService
     {

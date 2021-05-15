@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using LecturerLookup.DiscordBot.Properties;
+using LecturerLookup.DiscordBot.Services;
 
 namespace LecturerLookup.DiscordBot.Commands
 {

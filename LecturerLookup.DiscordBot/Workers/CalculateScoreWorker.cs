@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace LecturerLookup.DiscordBot
+namespace LecturerLookup.DiscordBot.Workers
 {
     public class CalculateScoreWorker : BackgroundService
     {

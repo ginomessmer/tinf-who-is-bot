@@ -1,4 +1,6 @@
-﻿namespace LecturerLookup.DiscordBot.Commands
+﻿using LecturerLookup.Core.Abstractions;
+
+namespace LecturerLookup.DiscordBot.Services
 {
     public class ScoreEvaluationService : IScoreEvaluationService
     {

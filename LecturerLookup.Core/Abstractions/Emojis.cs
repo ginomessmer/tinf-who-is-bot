@@ -1,4 +1,4 @@
-﻿namespace LecturerLookup.DiscordBot
+﻿namespace LecturerLookup.Core.Abstractions
 {
     public static class Emojis
     {

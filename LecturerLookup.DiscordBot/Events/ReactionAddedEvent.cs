@@ -1,7 +1,7 @@
 using Discord;
 using MediatR;
 
-namespace LecturerLookup.DiscordBot
+namespace LecturerLookup.DiscordBot.Events
 {
     public record ReactionAddedEvent : INotification
     {

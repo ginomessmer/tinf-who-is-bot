@@ -1,13 +1,14 @@
-﻿using System.Linq;
-using LecturerLookup.Core.Database;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using LecturerLookup.Core.Abstractions;
+using LecturerLookup.Core.Database;
+using LecturerLookup.DiscordBot.Events;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace LecturerLookup.DiscordBot
+namespace LecturerLookup.DiscordBot.Handlers
 {
     public class CommendEventHandler : INotificationHandler<ReactionAddedEvent>
     {
