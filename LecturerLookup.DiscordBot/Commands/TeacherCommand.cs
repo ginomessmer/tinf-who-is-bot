@@ -28,7 +28,7 @@ namespace LecturerLookup.DiscordBot.Commands
                 .Include(x => x.Courses)
                 .Include(x => x.Tags)
                 .ThenInclude(x => x.Tag)
-                .FirstOrDefaultAsync(x => x.Name.Contains(term));
+                .FirstOrDefaultAsync(x => EF.Functions.ILike(x.Name, $"%{term}%"));
 
             if (result is null)
                 return;
