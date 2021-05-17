@@ -25,6 +25,8 @@ namespace LecturerLookup.DiscordBot.Commands
             var results = await _dbContext.Courses.AsQueryable()
                 .Where(x => EF.Functions.ILike(x.Name, $"%{term}%")
                             || EF.Functions.ILike(x.Id, $"%{term}%"))
+                .Take(10)
+                .OrderBy(x => x.Name)
                 .ToListAsync();
 
             if (!results.Any())
@@ -34,6 +36,7 @@ namespace LecturerLookup.DiscordBot.Commands
             }
 
             await ReplyAsync(embed: new EmbedBuilder()
+                .WithTitle($"Kurs-Suchergebnisse zu \"{term}\"")
                 .WithFields(results
                     .Select(x => new EmbedFieldBuilder()
                         .WithName(x.Name)

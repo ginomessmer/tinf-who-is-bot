@@ -42,6 +42,12 @@ namespace LecturerLookup.DiscordBot.Commands
 
             await _dbContext.Teachers.AddAsync(teacher);
             await _dbContext.SaveChangesAsync();
+
+            await ReplyAsync(embed: new EmbedBuilder()
+                .WithTitle("Vielen Dank!")
+                .WithDescription("Dein Eintrag wurde aufgenommen.")
+                .WithColor(Color.Green)
+                .Build());
         }
     }
 
