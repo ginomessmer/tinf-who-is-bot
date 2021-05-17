@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using FluentValidation;
 using LecturerLookup.Core.Database;
 using LecturerLookup.DiscordBot.Commands;
 using LecturerLookup.DiscordBot.Workers;
@@ -52,6 +53,8 @@ namespace LecturerLookup.DiscordBot
 
                     // Misc
                     services.AddMediatR(typeof(Program));
+                    services.AddAutoMapper(typeof(Program));
+                    services.AddValidatorsFromAssemblyContaining(typeof(Program));
                     services.AddApplicationInsightsTelemetryWorkerService();
                 });
 

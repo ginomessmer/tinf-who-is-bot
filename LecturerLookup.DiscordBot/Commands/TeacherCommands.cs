@@ -6,7 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using AutoMapper;
+using FluentValidation;
 using LecturerLookup.DiscordBot.Commands.Arguments;
+using LecturerLookup.DiscordBot.Internal;
 using LecturerLookup.DiscordBot.Properties;
 using LecturerLookup.DiscordBot.Services;
 
@@ -20,7 +23,16 @@ namespace LecturerLookup.DiscordBot.Commands
         [Command("add")]
         public async Task Add(AddTeacherArguments arguments)
         {
-            
+            var validationResult = await _validator.ValidateAsync(arguments);
+            if (!validationResult.IsValid)
+            {
+                await Context.Message.ReplyAsync(embed: validationResult.ToEmbed());
+                return;
+            }
+
+            var teacher = _mapper.Map<Teacher>(arguments);
+            await _dbContext.Teachers.AddAsync(teacher);
+            await _dbContext.SaveChangesAsync();
         }
     }
 
@@ -31,10 +43,16 @@ namespace LecturerLookup.DiscordBot.Commands
     public partial class TeacherCommands : ModuleBase<SocketCommandContext>
     {
         private readonly WhoIsDbContext _dbContext;
+        private readonly IMapper _mapper;
+        private readonly IValidator<AddTeacherArguments> _validator;
 
-        public TeacherCommands(WhoIsDbContext dbContext)
+        public TeacherCommands(WhoIsDbContext dbContext,
+            IMapper mapper,
+            IValidator<AddTeacherArguments> validator)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
+            _validator = validator;
         }
 
         [Command("whois")]
