@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -13,14 +16,19 @@ namespace LecturerLookup.DiscordBot.Commands
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
         private readonly IServiceProvider _serviceProvider;
+        private readonly TelemetryClient _telemetryClient;
         private readonly ILogger<CommandHandler> _logger;
 
         // Retrieve client and CommandService instance via ctor
-        public CommandHandler(DiscordSocketClient client, CommandService commands, IServiceProvider serviceProvider,
+        public CommandHandler(DiscordSocketClient client,
+            CommandService commands,
+            IServiceProvider serviceProvider,
+            TelemetryClient telemetryClient,
             ILogger<CommandHandler> logger)
         {
             _commands = commands;
             _serviceProvider = serviceProvider;
+            _telemetryClient = telemetryClient;
             _logger = logger;
             _client = client;
         }
@@ -77,6 +85,13 @@ namespace LecturerLookup.DiscordBot.Commands
 
             // Create a WebSocket-based command context based on the message
             var context = new SocketCommandContext(_client, message);
+
+            var commandResult = _commands.Search(context, argPos);
+            if (!commandResult.IsSuccess)
+                return;
+
+            using var operation = _telemetryClient.StartOperation<RequestTelemetry>(commandResult.Commands.First().Command.Name);
+            operation.Telemetry.Context.User.AuthenticatedUserId = message.Author.Id.ToString();
 
             // Execute the command with the command context we just
             // created, along with the service provider for precondition checks.
