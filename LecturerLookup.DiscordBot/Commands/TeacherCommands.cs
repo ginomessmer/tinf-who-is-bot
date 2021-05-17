@@ -6,17 +6,33 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using LecturerLookup.DiscordBot.Commands.Arguments;
 using LecturerLookup.DiscordBot.Properties;
 using LecturerLookup.DiscordBot.Services;
 
 namespace LecturerLookup.DiscordBot.Commands
 {
+    /// <summary>
+    /// Teacher management commands.
+    /// </summary>
+    public partial class TeacherCommands
+    {
+        [Command("add")]
+        public async Task Add(AddTeacherArguments arguments)
+        {
+            
+        }
+    }
+
+    /// <summary>
+    /// Teacher basic commands
+    /// </summary>
     [RequireContext(ContextType.DM)]
-    public class TeacherCommand : ModuleBase<SocketCommandContext>
+    public partial class TeacherCommands : ModuleBase<SocketCommandContext>
     {
         private readonly WhoIsDbContext _dbContext;
 
-        public TeacherCommand(WhoIsDbContext dbContext)
+        public TeacherCommands(WhoIsDbContext dbContext)
         {
             _dbContext = dbContext;
         }
