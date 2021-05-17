@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LecturerLookup.Core.Database;
 using LecturerLookup.Models;
 
 namespace LecturerLookup.DiscordBot.Commands.Arguments

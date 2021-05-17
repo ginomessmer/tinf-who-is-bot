@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using System;
+using Discord;
 using Discord.Commands;
 using LecturerLookup.Core.Database;
 using LecturerLookup.Models;
@@ -31,6 +32,14 @@ namespace LecturerLookup.DiscordBot.Commands
             }
 
             var teacher = _mapper.Map<Teacher>(arguments);
+
+            if (arguments.Courses.Any())
+            {
+                // TODO: Exception handling
+                var courses = await Task.WhenAll(arguments.Courses.Select(x => _dbContext.Courses.FindAsync(x).AsTask()));
+                teacher.Courses.AddRange(courses);
+            }
+
             await _dbContext.Teachers.AddAsync(teacher);
             await _dbContext.SaveChangesAsync();
         }
