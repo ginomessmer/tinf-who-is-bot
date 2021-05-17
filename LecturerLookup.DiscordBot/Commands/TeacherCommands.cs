@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Text;
 using AutoMapper;
 using FluentValidation;
 using LecturerLookup.DiscordBot.Commands.Arguments;
@@ -73,21 +74,21 @@ namespace LecturerLookup.DiscordBot.Commands
         [Command("whois")]
         public async Task WhoIs(string term)
         {
-            var result = await _dbContext.Teachers
+            var teacher = await _dbContext.Teachers
                 .Include(x => x.Courses)
                 .Include(x => x.Tags)
                 .ThenInclude(x => x.Tag)
                 .FirstOrDefaultAsync(x => EF.Functions.ILike(x.Name, $"%{term}%"));
 
-            if (result is null)
+            if (teacher is null)
                 return;
 
             // Courses
-            var courses = result.Courses;
+            var courses = teacher.Courses;
             var coursesValue = courses.Any() ? string.Join(", ", courses.Select(x => x.Name)) : "-";
 
             // Tags
-            var tags = result.Tags;
+            var tags = teacher.Tags;
 
             var evaluationService = new ScoreEvaluationService();
 
@@ -96,22 +97,34 @@ namespace LecturerLookup.DiscordBot.Commands
                 .WithValue(evaluationService.GetLabel(x.Evaluation.CalculatedScore))
                 .WithIsInline(false));
 
-            var fields = new List<EmbedFieldBuilder>();
-            fields.Add(new EmbedFieldBuilder()
+            var fields = new List<EmbedFieldBuilder>
+            {
+                new EmbedFieldBuilder()
                     .WithName("Vorlesungen")
-                    .WithValue(coursesValue));
-            fields.AddRange(tagFields);
-            fields.Add(new EmbedFieldBuilder()
+                    .WithValue(coursesValue),
+                new EmbedFieldBuilder()
                     .WithName("Kontakt")
-                    .WithValue(result.FormatContactDetails()));
+                    .WithValue(teacher.FormatContactDetails())
+            };
+
+            fields.AddRange(tagFields);
 
             await ReplyAsync(embed: new EmbedBuilder()
-                .WithTitle(result.Name)
-                .WithThumbnailUrl(result.AvatarUrl)
-                .WithDescription(result.Office)
+                .WithTitle(teacher.Name)
+                .WithThumbnailUrl(teacher.AvatarUrl)
+                .WithDescription(teacher.Office)
                 .WithFields(fields) 
-                .WithFooter($"#{result.Id}")
+                .WithFooter(FormatFooter())
                 .Build());
+
+            string FormatFooter()
+            {
+                var elements = new List<string> {$"#{teacher.Id}"};
+                if (!teacher.IsApproved)
+                    elements.Add("Dieser Eintrag wurde noch nicht überprüft");
+
+                return string.Join(" - ", elements);
+            }
         }
 
         [Command("rate")]

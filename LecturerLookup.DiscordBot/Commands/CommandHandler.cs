@@ -92,6 +92,7 @@ namespace LecturerLookup.DiscordBot.Commands
 
             using var operation = _telemetryClient.StartOperation<RequestTelemetry>(commandResult.Commands.First().Command.Name);
             operation.Telemetry.Context.User.AuthenticatedUserId = message.Author.Id.ToString();
+            operation.Telemetry.Properties.Add("content", message.Content);
 
             // Execute the command with the command context we just
             // created, along with the service provider for precondition checks.
