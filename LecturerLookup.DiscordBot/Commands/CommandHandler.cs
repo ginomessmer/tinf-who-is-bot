@@ -90,7 +90,7 @@ namespace LecturerLookup.DiscordBot.Commands
             if (!commandResult.IsSuccess)
                 return;
 
-            using var operation = _telemetryClient.StartOperation<RequestTelemetry>(commandResult.Commands.First().Command.ToString());
+            using var operation = _telemetryClient.StartOperation<RequestTelemetry>(commandResult.Commands.First().Command.Name);
             operation.Telemetry.Context.User.AuthenticatedUserId = message.Author.Id.ToString();
 
             // Execute the command with the command context we just
