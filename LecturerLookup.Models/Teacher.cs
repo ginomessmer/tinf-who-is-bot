@@ -18,6 +18,8 @@ namespace LecturerLookup.Models
 
         public string AvatarUrl { get; set; }
 
+        public bool IsApproved { get; set; }
+
         public List<Course> Courses { get; set; } = new List<Course>();
 
         public List<TeacherTag> Tags { get; set; } = new List<TeacherTag>();
