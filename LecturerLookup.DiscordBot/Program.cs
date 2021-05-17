@@ -32,11 +32,12 @@ namespace LecturerLookup.DiscordBot
                     services.AddSingleton<DiscordSocketClient>(sp => CreateDiscordSocketClient(hostContext));
                     services.AddSingleton<IDiscordClient, DiscordSocketClient>(sp => sp.GetRequiredService<DiscordSocketClient>());
 
-                    services.AddHostedService<Worker>();
-                    services.AddHostedService<CalculateScoreWorker>();
                     services.AddSingleton<CommandServiceConfig>();
                     services.AddSingleton<CommandService>();
                     services.AddSingleton<CommandHandler>();
+
+                    services.AddHostedService<Worker>();
+                    services.AddHostedService<CalculateScoreWorker>();
 
                     // DB
                     services.AddDistributedRedisCache(options =>
