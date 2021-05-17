@@ -38,7 +38,8 @@ namespace LecturerLookup.DiscordBot.Commands
             {
                 // TODO: Exception handling
                 var courses = await Task.WhenAll(arguments.Courses.Select(x => _dbContext.Courses.FindAsync(x).AsTask()));
-                teacher.Courses.AddRange(courses);
+                var escapedCourses = courses.Where(x => x is not null);
+                teacher.Courses.AddRange(escapedCourses);
             }
 
             await _dbContext.Teachers.AddAsync(teacher);
@@ -55,7 +56,6 @@ namespace LecturerLookup.DiscordBot.Commands
     /// <summary>
     /// Teacher basic commands
     /// </summary>
-    [RequireContext(ContextType.DM)]
     public partial class TeacherCommands : ModuleBase<SocketCommandContext>
     {
         private readonly WhoIsDbContext _dbContext;
@@ -81,21 +81,15 @@ namespace LecturerLookup.DiscordBot.Commands
                 .FirstOrDefaultAsync(x => EF.Functions.ILike(x.Name, $"%{term}%"));
 
             if (teacher is null)
+            {
+                await ReplyAsync("Kein Ergebnis gefunden.");
                 return;
+            }
 
             // Courses
             var courses = teacher.Courses;
             var coursesValue = courses.Any() ? string.Join(", ", courses.Select(x => x.Name)) : "-";
 
-            // Tags
-            var tags = teacher.Tags;
-
-            var evaluationService = new ScoreEvaluationService();
-
-            var tagFields = tags.Select(x => new EmbedFieldBuilder()
-                .WithName(x.Tag.Key)
-                .WithValue(evaluationService.GetLabel(x.Evaluation.CalculatedScore))
-                .WithIsInline(false));
 
             var fields = new List<EmbedFieldBuilder>
             {
@@ -107,7 +101,20 @@ namespace LecturerLookup.DiscordBot.Commands
                     .WithValue(teacher.FormatContactDetails())
             };
 
-            fields.AddRange(tagFields);
+            // Tags - only display them in DM channels
+            if (Context.Channel is IDMChannel)
+            {
+                var tags = teacher.Tags;
+
+                var evaluationService = new ScoreEvaluationService();
+
+                var tagFields = tags.Select(x => new EmbedFieldBuilder()
+                    .WithName(x.Tag.Key)
+                    .WithValue(evaluationService.GetLabel(x.Evaluation.CalculatedScore))
+                    .WithIsInline(false));
+
+                fields.AddRange(tagFields);
+            }
 
             await ReplyAsync(embed: new EmbedBuilder()
                 .WithTitle(teacher.Name)
@@ -128,6 +135,7 @@ namespace LecturerLookup.DiscordBot.Commands
         }
 
         [Command("rate")]
+        [RequireContext(ContextType.DM)]
         public async Task Rate(int teacherId)
         {
             var teacher = await _dbContext.Teachers
