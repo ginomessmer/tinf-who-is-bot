@@ -5,4 +5,4 @@ services:
     image: ${DOCKER_REGISTRY-}ll-discord-bot
     build:
       context: .
-      dockerfile: LecturerLookup.DiscordBot/Dockerfile
+      dockerfile: TinfWhoIs.DiscordBot/Dockerfile
