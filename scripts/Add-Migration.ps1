@@ -1,3 +1,3 @@
 $name = $args[0]
 
-dotnet ef migrations add $name --project ../LecturerLookup.Core --startup-project ../LecturerLookup.DiscordBot
+dotnet ef migrations add $name --project ../src/LecturerLookup.Core --startup-project ../src/LecturerLookup.DiscordBot
