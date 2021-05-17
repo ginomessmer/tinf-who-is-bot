@@ -42,7 +42,8 @@ namespace LecturerLookup.Core.Database.Configuration
                     Location =
                         x.SelectSingleNode("div[2]/div/div/div/div[1]/div/div[1]/p")?.GetDirectInnerText().Trim(),
                     AvatarUrl = x.SelectSingleNode("div[2]/div/div/div/div[2]/div/img")?.GetAttributeValue("src", "")
-                        .Insert(0, "https://www.karlsruhe.dhbw.de/")
+                        .Insert(0, "https://www.karlsruhe.dhbw.de/"),
+                    IsApproved = true
                 };
             });
 

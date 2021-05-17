@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using FluentValidation;
 using LecturerLookup.Core.Database;
 using LecturerLookup.DiscordBot.Commands;
 using LecturerLookup.DiscordBot.Workers;
@@ -31,11 +32,12 @@ namespace LecturerLookup.DiscordBot
                     services.AddSingleton<DiscordSocketClient>(sp => CreateDiscordSocketClient(hostContext));
                     services.AddSingleton<IDiscordClient, DiscordSocketClient>(sp => sp.GetRequiredService<DiscordSocketClient>());
 
-                    services.AddHostedService<Worker>();
-                    services.AddHostedService<CalculateScoreWorker>();
                     services.AddSingleton<CommandServiceConfig>();
                     services.AddSingleton<CommandService>();
                     services.AddSingleton<CommandHandler>();
+
+                    services.AddHostedService<Worker>();
+                    services.AddHostedService<CalculateScoreWorker>();
 
                     // DB
                     services.AddDistributedRedisCache(options =>
@@ -52,6 +54,8 @@ namespace LecturerLookup.DiscordBot
 
                     // Misc
                     services.AddMediatR(typeof(Program));
+                    services.AddAutoMapper(typeof(Program));
+                    services.AddValidatorsFromAssemblyContaining(typeof(Program));
                     services.AddApplicationInsightsTelemetryWorkerService();
                 });
 

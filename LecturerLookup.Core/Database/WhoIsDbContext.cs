@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LecturerLookup.Core.Database
 {
-    public class WhoIsDbContext : DbContext
+    public sealed class WhoIsDbContext : DbContext
     {
         public DbSet<Teacher> Teachers { get; set; }
 
@@ -14,14 +14,14 @@ namespace LecturerLookup.Core.Database
         public DbSet<TeacherTagVote> TeacherTagVotes { get; set; }
 
         /// <inheritdoc />
-        protected WhoIsDbContext()
+        public WhoIsDbContext()
         {
         }
 
         /// <inheritdoc />
         public WhoIsDbContext(DbContextOptions options) : base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         /// <inheritdoc />
