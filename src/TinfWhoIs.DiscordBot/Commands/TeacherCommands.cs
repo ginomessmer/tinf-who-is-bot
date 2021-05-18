@@ -17,6 +17,41 @@ using TinfWhoIs.DiscordBot.Services;
 
 namespace TinfWhoIs.DiscordBot.Commands
 {
+    public partial class TeacherCommands
+    {
+        [Command("commend")]
+        public async Task Commend(int teacherId, [Remainder] string text)
+        {
+            try
+            {
+                var validator = new InlineValidator<string>();
+                validator.RuleFor(x => x)
+                    .MinimumLength(10)
+                    .MaximumLength(2000);
+
+                await validator.ValidateAndThrowAsync(text);
+            }
+            catch (ValidationException ex)
+            {
+                await ReplyAsync(ex.Message);
+                return;
+            }
+
+            var teacher = await _dbContext.Teachers.FindAsync(teacherId);
+            if (teacher is null)
+                return;
+
+            teacher.Commends.Add(new TeacherCommend
+            {
+                AuthoredBy = Context.User.Id,
+                Content = text
+            });
+
+            await _dbContext.SaveChangesAsync();
+            await ReplyAsync("Deine Empfehlung wurde gespeichert.");
+        }
+    }
+
     /// <summary>
     /// Teacher management commands.
     /// </summary>
