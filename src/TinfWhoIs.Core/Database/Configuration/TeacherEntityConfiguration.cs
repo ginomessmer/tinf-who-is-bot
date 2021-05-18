@@ -16,6 +16,9 @@ namespace TinfWhoIs.Core.Database.Configuration
             builder.HasMany(x => x.Courses)
                 .WithMany(x => x.Teachers);
 
+            builder.HasMany(x => x.Commends)
+                .WithOne(x => x.Teacher);
+
         }
 
         private static IEnumerable<Teacher> Seed()
