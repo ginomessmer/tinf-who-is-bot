@@ -1,9 +1,21 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace TinfWhoIs.Models
 {
+    public class TeacherCommend : Entity<int>
+    {
+        public ulong AuthoredBy { get; set; }
+
+        public string Content { get; set; }
+
+        public Teacher Teacher { get; set; }
+
+        public DateTime PublishedAt { get; set; } = DateTime.UtcNow;
+    }
+
     public class Teacher : Entity<int>
     {
         public string Name { get; set; }
@@ -20,9 +32,11 @@ namespace TinfWhoIs.Models
 
         public bool IsApproved { get; set; }
 
-        public List<Course> Courses { get; set; } = new List<Course>();
+        public List<TeacherCommend> Commends { get; set; } = new();
 
-        public List<TeacherTag> Tags { get; set; } = new List<TeacherTag>();
+        public List<Course> Courses { get; set; } = new();
+
+        public List<TeacherTag> Tags { get; set; } = new();
 
 
         public IReadOnlyCollection<TeacherTag> DetermineTopTags(int top = 3) =>

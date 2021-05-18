@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TinfWhoIs.Core.Database;
@@ -9,9 +10,10 @@ using TinfWhoIs.Core.Database;
 namespace TinfWhoIs.Core.Migrations
 {
     [DbContext(typeof(WhoIsDbContext))]
-    partial class WhoIsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210518071014_AddTeacherCommends")]
+    partial class AddTeacherCommends
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
