@@ -20,7 +20,7 @@ namespace TinfWhoIs.DiscordBot.Commands
         }
 
         [Command]
-        public async Task Search(string term)
+        public async Task Search([Remainder] string term)
         {
             var results = await _dbContext.Courses.AsQueryable()
                 .Where(x => EF.Functions.ILike(x.Name, $"%{term}%")
